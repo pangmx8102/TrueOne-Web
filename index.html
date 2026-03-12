@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrueOne | Your Unique Digital Identity</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #050505; color: #e5e7eb; font-family: 'Inter', sans-serif; }
+        .dna-gradient { background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%); }
+        .glass-card { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        @keyframes pulse-soft { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        .processing-pulse { animation: pulse-soft 2s infinite; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col bg-[#050505]">
+
+    <nav class="glass-card sticky top-0 z-50 px-6 py-4 flex justify-between items-center border-b border-white/10">
+        <div class="text-2xl font-bold dna-gradient bg-clip-text text-transparent cursor-pointer" onclick="showSection('home')">
+            TrueOne
+        </div>
+        <div class="hidden md:flex space-x-8 text-sm font-medium text-gray-400">
+            <a href="javascript:void(0)" onclick="showSection('home')" class="hover:text-white transition">首页</a>
+            <a href="javascript:void(0)" onclick="showSection('about')" class="hover:text-white transition">关于我们</a>
+            <a href="javascript:void(0)" onclick="showSection('support')" class="hover:text-white transition">技术支持</a>
+        </div>
+        <div>
+            <button onclick="showSection('auth')" class="px-5 py-2 rounded-full border border-blue-500/50 text-blue-400 text-sm hover:bg-blue-500/10 transition">
+                注册 / 登录
+            </button>
+        </div>
+    </nav>
+
+    <main class="flex-grow flex items-center justify-center p-6">
+        
+        <section id="section-home" class="content-section glass-card w-full max-w-md rounded-3xl p-8 shadow-2xl">
+            <div id="init-view">
+                <div class="mb-6 text-center">
+                    <div class="inline-block p-4 rounded-full bg-blue-500/10 mb-4">
+                        <svg class="w-8 h-8 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                    </div>
+                    <h2 class="text-xl font-semibold mb-2">唯一性身份验证</h2>
+                    <p class="text-sm text-gray-400 text-center">基于 DNA 零知识证明，证明你是唯一的真人，且不泄露任何隐私。</p>
+                </div>
+                <button onclick="showUpload()" class="w-full dna-gradient text-white font-bold py-4 rounded-xl shadow-lg">
+                    开始本地认证
+                </button>
+            </div>
+
+            <div id="upload-view" class="hidden text-center">
+                <h2 class="text-xl font-bold mb-6">上传 DNA 原始数据</h2>
+                <div class="border-2 border-dashed border-gray-700 rounded-2xl p-10 cursor-pointer" onclick="document.getElementById('dna-input').click()">
+                    <input type="file" id="dna-input" class="hidden" onchange="handleFile(this)">
+                    <p class="text-gray-400">点击选择数据文件</p>
+                </div>
+            </div>
+            <div id="process-view" class="hidden text-center py-10">
+                <div class="processing-pulse text-blue-400 font-mono text-sm mb-4">GENERTING ZK-PROOF...</div>
+                <div class="w-full bg-gray-800 rounded-full h-1.5 mb-4"><div id="progress-bar" class="dna-gradient h-1.5 rounded-full" style="width: 0%"></div></div>
+            </div>
+            <div id="success-view" class="hidden text-center">
+                <div class="text-green-400 text-4xl mb-4">✓</div>
+                <h2 class="text-2xl font-bold mb-2">认证成功</h2>
+                <p class="text-gray-500 text-xs">唯一哈希凭证已写入 Base 测试链</p>
+            </div>
+        </section>
+
+        <section id="section-about" class="content-section hidden glass-card w-full max-w-2xl rounded-3xl p-10">
+            <h2 class="text-3xl font-bold mb-6 text-white">关于 TrueOne</h2>
+            <div class="space-y-4 text-gray-300">
+                <p>TrueOne 是全球首个利用 DNA 零知识证明技术（ZKP）解决互联网身份信任问题的平台。</p>
+                <p>我们相信：大多数场景不需要知道你是谁，只需要知道你是唯一的真人。</p>
+                <div class="grid grid-cols-2 gap-4 mt-8">
+                    <div class="p-4 bg-white/5 rounded-xl border border-white/10 text-center">
+                        <div class="text-blue-400 font-bold text-xl">100%</div>
+                        <div class="text-xs text-gray-500">隐私保护</div>
+                    </div>
+                    <div class="p-4 bg-white/5 rounded-xl border border-white/10 text-center">
+                        <div class="text-purple-400 font-bold text-xl">0</div>
+                        <div class="text-xs text-gray-500">服务器数据留存</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="section-support" class="content-section hidden glass-card w-full max-w-2xl rounded-3xl p-10">
+            <h2 class="text-3xl font-bold mb-6 text-white">技术支持</h2>
+            <div class="space-y-6">
+                <div class="p-4 bg-white/5 rounded-xl">
+                    <h3 class="text-blue-400 font-bold mb-2">如何获取 DNA 数据？</h3>
+                    <p class="text-sm text-gray-400">登录 23andMe 或 AncestryDNA 官网，在设置中选择 "Download Raw Data"。</p>
+                </div>
+                <div class="p-4 bg-white/5 rounded-xl">
+                    <h3 class="text-blue-400 font-bold mb-2">联系我们</h3>
+                    <p class="text-sm text-gray-400">如有技术疑问或商务合作，请发送邮件至：support@trueone.id</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="section-auth" class="content-section hidden glass-card w-full max-w-md rounded-3xl p-10 text-center">
+            <h2 class="text-2xl font-bold mb-6">欢迎回来</h2>
+            <input type="email" placeholder="邮箱地址" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 mb-4 outline-none focus:border-blue-500">
+            <button class="w-full dna-gradient py-3 rounded-xl font-bold mb-4">登录</button>
+            <p class="text-xs text-gray-500">还没有账号？<a href="#" class="text-blue-400">立即加入等待名单</a></p>
+        </section>
+
+    </main>
+
+    <script>
+        // 简单的板块切换逻辑
+        function showSection(sectionId) {
+            // 隐藏所有板块
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.add('hidden');
+            });
+            // 显示选中的板块
+            document.getElementById('section-' + sectionId).classList.remove('hidden');
+            
+            // 如果切回首页，重置认证流程
+            if(sectionId === 'home') {
+                document.getElementById('init-view').classList.remove('hidden');
+                document.getElementById('upload-view').classList.add('hidden');
+                document.getElementById('process-view').classList.add('hidden');
+                document.getElementById('success-view').classList.add('hidden');
+            }
+        }
+
+        // ... 保留之前的 handleFile 和 showUpload 函数 ...
+        function showUpload() {
+            document.getElementById('init-view').classList.add('hidden');
+            document.getElementById('upload-view').classList.remove('hidden');
+        }
+        async function handleFile(input) {
+            const file = input.files[0];
+            if (!file) return;
+            document.getElementById('upload-view').classList.add('hidden');
+            document.getElementById('process-view').classList.remove('hidden');
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 10;
+                document.getElementById('progress-bar').style.width = progress + '%';
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    document.getElementById('process-view').classList.add('hidden');
+                    document.getElementById('success-view').classList.remove('hidden');
+                }
+            }, 300);
+        }
+    </script>
+</body>
+</html>
